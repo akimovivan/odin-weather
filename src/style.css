@@ -1,0 +1,113 @@
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: gray;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 2rem;
+}
+
+/* #app>div { */
+/*   background-color: magenta; */
+/* } */
+
+.weather-card {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 24px;
+  text-align: center;
+}
+
+.location {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.temperature {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+}
+
+.condition-icon {
+  max-width: 20%;
+}
+
+.condition-text {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 16px 0;
+  text-transform: capitalize;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.detail-item span:first-child {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.detail-item span:last-child {
+  color: #fff;
+  font-weight: 500;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+.spin::before {
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+  border: solid 5px #cfd0d1;
+  border-bottom-color: #1c87c9;
+  border-radius: 50%;
+  content: "";
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+.date {
+  color: white;
+  font-style: italic;
+}

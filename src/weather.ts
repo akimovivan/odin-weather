@@ -1,20 +1,20 @@
 interface DayReport {
-  datetime: string
-  temp: number
-  conditions: string
-  humidity: number
-  wind: number
-  icon: string
+  datetime: string;
+  temp: number;
+  conditions: string;
+  humidity: number;
+  wind: number;
+  icon: string;
 }
 
 class WeatherReport {
-  private days: DayReport[]
-  private location: string
+  private days: DayReport[];
+  private location: string;
   constructor(report: any) {
     if (!report.days || !report.resolvedAddress) {
-      throw new Error("Incorrect shape of data")
+      throw new Error("Incorrect shape of data");
     }
-    this.days = []
+    this.days = [];
     for (const item of report.days) {
       if (
         !item.datetime ||
@@ -24,7 +24,7 @@ class WeatherReport {
         !item.windspeed ||
         !item.icon
       ) {
-        throw new Error("Incorrect shape of data")
+        throw new Error("Incorrect shape of data");
       }
       const newDay: DayReport = {
         datetime: item.datetime,
@@ -33,33 +33,33 @@ class WeatherReport {
         humidity: item.humidity,
         wind: item.windspeed,
         icon: item.icon,
-      }
-      this.days.push(newDay)
+      };
+      this.days.push(newDay);
     }
 
-    this.location = report.resolvedAddress
+    this.location = report.resolvedAddress;
   }
 
   public getDays(): DayReport[] {
-    return this.days
+    return this.days;
   }
 
   public getLocation(): string {
-    return this.location
+    return this.location;
   }
 }
 
 function makeWeatherReportUI(app: HTMLDivElement, data: WeatherReport): void {
-  const days = data.getDays()
-  const location = data.getLocation()
-  app.innerHTML = ""
+  const days = data.getDays();
+  const location = data.getLocation();
+  app.innerHTML = "";
   for (const day of days) {
-    app.appendChild(makeDayCard(day, location))
+    app.appendChild(makeDayCard(day, location));
   }
 }
 
 function makeDayCard(day: DayReport, location: string): HTMLDivElement {
-  const card: HTMLDivElement = document.createElement("div")
+  const card: HTMLDivElement = document.createElement("div");
   card.innerHTML = `
   <div class="weather-card">
     <h2 class="location">${location}</h2>
@@ -67,7 +67,7 @@ function makeDayCard(day: DayReport, location: string): HTMLDivElement {
     
     <div class="main-info">
       <span class="temperature" id="temp-value">${day.temp}°C</span>
-      <img class="condition-icon" id="weather-icon" src="/${day.icon}.svg" alt="${day.icon}">
+      <img class="condition-icon" id="weather-icon" src="./${day.icon}.svg" alt="${day.icon}">
     </div>
     
     <p class="condition-text" id="condition-text">${day.conditions}</p>
@@ -83,9 +83,9 @@ function makeDayCard(day: DayReport, location: string): HTMLDivElement {
       </div>
     </div>
   </div>
-`
+`;
 
-  return card
+  return card;
 }
 
 async function getWeatherData(
@@ -94,24 +94,24 @@ async function getWeatherData(
 ): Promise<WeatherReport | null> {
   try {
     if (!location || location == "") {
-      throw new Error("Empty location")
+      throw new Error("Empty location");
     }
-    spinner.style.display = "block"
+    spinner.style.display = "block";
     const response = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&include=current&key=T8VKKLXXD8JSQY7BZMWL8TQW9&contentType=json`,
-    )
+    );
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`)
+      throw new Error(`Response status: ${response.status}`);
     }
-    const report = await response.json()
-    const weatherReport = new WeatherReport(report)
-    return weatherReport
+    const report = await response.json();
+    const weatherReport = new WeatherReport(report);
+    return weatherReport;
   } catch (error) {
-    console.error(error)
-    return null
+    console.error(error);
+    return null;
   } finally {
-    spinner.style.display = "none"
+    spinner.style.display = "none";
   }
 }
 
-export { makeWeatherReportUI, getWeatherData }
+export { makeWeatherReportUI, getWeatherData };
